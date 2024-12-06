@@ -55,13 +55,14 @@ Concevoir un CAPTCHA à la fois ludique et interactif nécessite de trouver un �
 
 Pour relever ce défi, nous avons réfléchi au type de jeu qui serait à la fois ludique pour les utilisateurs et efficace pour distinguer un humain d’un robot, mélan sécurité et amusement.
 
-Cloudflare Turnstile utilise une simple case à cocher pour **analyser les mouvements de souris,** tandis que reCAPTCHA de Google s'appuie sur des défis visuels (identifier des objets comme des voitures ou des passages piétons). Malgré des approches différentes, les deux méthodes évaluent les mouvements pour distinguer les humains des robots.  
+Cloudflare Turnstile utilise une simple case à cocher pour **analyser les mouvements de souris**. De son côté, le reCAPTCHA de Google utilise une analyse d’images, invitant les utilisateurs à identifier des éléments visuels (comme des passages piétons ou des voitures). Bien que ces approches diffèrent dans leur présentation, elles reposent toutes deux sur la détection des mouvements de souris pour évaluer la probabilité qu’un utilisateur soit humain. 
 
 Partant de ce constat, nous avons conçu deux jeux pour aller plus loin dans l’analyse des comportements humains.  
-1. **“Où est Charlie ?”** : Ce jeu exige observation et précision pour trouver un personnage caché, mobilisant des compétences naturelles aux humains mais difficiles à imiter pour un robot.  
-2. **“Flappy Bird”** : Ce défi teste la coordination et la réactivité à travers des obstacles imprévisibles, s’appuyant sur des capacités motrices humaines complexes à reproduire par une machine.  
 
-Ces choix permettent une distinction claire entre humains et robots tout en offrant une expérience ludique.
+1. **“Où est Charlie ?”** : Ce jeu exige observation et précision pour trouver un personnage caché, mobilisant des compétences naturelles (irrégulières) aux humains mais difficiles à imiter pour un robot.Trouver un personnage caché parmi d’autres éléments visuels demande une capacité cognitive et une attention que les robots ont du mal à imiter, ce qui en fait un bon choix pour distinguer les humains des robots.
+ 
+
+2. **“Flappy Bird”** : Ce défi teste la coordination et la réactivité à travers des obstacles imprévisibles, s’appuyant sur des capacités motrices humaines complexes (irrégulières) à reproduire par une machine. Ces choix permettent une distinction claire entre humains et robots tout en offrant une expérience ludique.Cela nous a naturellement conduit à choisir **Flappy Bird** comme deuxième jeu. Avec sa mécanique simple mais exigeante, ce jeu permet de tester la réactivité et la coordination des utilisateurs tout en offrant une expérience ludique.
 
 ### Où est Charlie ?
 
@@ -104,7 +105,6 @@ L'objectif est simple : voler le plus loin possible en évitant les tuyaux.
 
 ![image](../doc/img/flappy_bird_game.png)
 
-
 1. Les règles sont les suivantes :
 
 Vous devez présser la barre d'espace pour faire voler l'oiseau et éviter les tuyaux. Si vous touchez un tuyau, vous perdez et devez recommencer : 
@@ -118,9 +118,6 @@ Pour réussir vous devez atteindre un score de **1250 points** avec un maximum d
 ![image](../doc/img/score_board.png)
 
 ![image](../doc/img/all_win_captcha.png)
-
-
-
 
 ## La stack technique
 
