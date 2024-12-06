@@ -3,6 +3,9 @@ import { readFileSync } from 'fs';
 import { Socket } from 'socket.io';
 import { parse } from 'csv-parse/sync';
 import { Events } from '../gateway/where-is-charlie.gateway';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CaptchaFingerPrint } from '../guards/entities/fingerprint.entity';
 
 enum GameState {
   NOT_STARTED = 'not-started',

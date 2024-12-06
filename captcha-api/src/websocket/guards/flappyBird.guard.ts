@@ -12,7 +12,7 @@ import { CaptchaFingerPrint } from './entities/fingerprint.entity';
 import { FlappyBirdGateway } from '../gateway/flappy-bird.gateway';
 
 @Injectable()
-export class WsFingerPrintGuard implements CanActivate {
+export class FlappyBirdPrintGuard implements CanActivate {
   constructor(
     @InjectRepository(CaptchaFingerPrint)
     private readonly fingerprintRepository: Repository<CaptchaFingerPrint>,
@@ -20,6 +20,8 @@ export class WsFingerPrintGuard implements CanActivate {
     private readonly flappyBirdGateway: FlappyBirdGateway,
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
+    console.log('RUNNING FLAPPY BIRD GUARD');
+
     const client: Socket = context.switchToWs().getClient<Socket>();
     const ipAddress = client.handshake.address;
     const userAgent = client.handshake.headers['user-agent'];

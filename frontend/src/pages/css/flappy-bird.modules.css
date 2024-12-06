@@ -16,8 +16,9 @@
   position: absolute;
   width: 40px;
   height: 40px;
-  background-color: yellow;
-  border-radius: 50%;
+  background-image: url("../../assets/flappy_bird_logo.png"); /* Assurez-vous que le chemin est correct */
+  background-size: cover;
+  background-position: center;
 }
 
 .pipe {

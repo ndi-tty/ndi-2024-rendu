@@ -3,7 +3,6 @@ import { FlappyBirdGateway } from './gateway/flappy-bird.gateway';
 import { FlappyBirdService } from './services/flappy-bird.service';
 import { WhereIsCharlieGateway } from './gateway/where-is-charlie.gateway';
 import { WhereIsCharlieService } from './services/where-is-charlie.service';
-import { WsFingerPrintGuard } from './guards/ws-fingerprint.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CaptchaFingerPrint } from './guards/entities/fingerprint.entity';
 import { makeCounterProvider } from '@willsoto/nestjs-prometheus';
@@ -15,6 +14,7 @@ import {
   FLAPPY_BIRD_FAIL_COUNTER,
   CHARLIE_ATTEMPS_COUNTER,
 } from 'src/config';
+import { FingerPrintGateway } from './gateway/fingerprint.gateway';
 
 @Module({
   imports: [
@@ -55,9 +55,9 @@ import {
       name: FLAPPY_BIRD_FAIL_COUNTER,
       help: 'Number of clappy bird fails',
     }),
+    FingerPrintGateway,
     FlappyBirdGateway,
     FlappyBirdService,
-    WsFingerPrintGuard,
     WhereIsCharlieGateway,
     WhereIsCharlieService,
   ],

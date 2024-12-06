@@ -19,4 +19,7 @@ export class CaptchaFingerPrint {
 
   @Column({ default: false })
   isFlappyBirdValidated: boolean;
+
+  @Column({ default: false })
+  isCharlieValidated: boolean;
 }

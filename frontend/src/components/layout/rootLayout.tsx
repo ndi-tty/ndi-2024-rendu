@@ -73,20 +73,13 @@ const RootLayout: React.FC = () => {
                 Monkey Island (FAQ)
               </NavLink>
             </li>
+
             <li>
               <NavLink
-                to="/flappy-bird"
+                to="/captcha"
                 style={navLinkStyles as React.CSSProperties}
               >
-                CAPTCHA (Flappy Bird)
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/where-is-charlie"
-                style={navLinkStyles as React.CSSProperties}
-              >
-                CAPTCHA (Where Is Charlie?)
+                CAPTCHA's (game)
               </NavLink>
             </li>
             <Separator orientation="horizontal" size="4" />

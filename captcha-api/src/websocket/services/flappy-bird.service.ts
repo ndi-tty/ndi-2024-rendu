@@ -28,7 +28,7 @@ export interface UserFingerPrint {
 }
 
 let initialState: GameState = {
-  bird: { x: 50, y: 300, velocity: 0, width: 15, height: 15 },
+  bird: { x: 50, y: 300, velocity: 0, width: 40, height: 40 },
   pipes: [],
   score: 0,
   gameOver: false,
@@ -67,20 +67,20 @@ export class FlappyBirdService {
       x: pipe.x - 3,
     }));
 
+    const BIRD_WIDTH = 40;
+    const BIRD_HEIGHT = 40;
+
     // Collision detection
     initialState.pipes.forEach((pipe) => {
       if (
-        initialState.bird.x + initialState.bird.width / 2 > pipe.x &&
-        initialState.bird.x - initialState.bird.width / 2 <
-          pipe.x + PIPE_WIDTH &&
-        (initialState.bird.y - initialState.bird.height / 2 < pipe.height ||
-          initialState.bird.y + initialState.bird.height / 2 >
-            pipe.height + PIPE_GAP)
+        initialState.bird.x + BIRD_WIDTH / 2 > pipe.x && // Vérifie si le bord droit de l'oiseau dépasse le bord gauche du tuyau
+        initialState.bird.x - BIRD_WIDTH / 2 < pipe.x + (PIPE_WIDTH - 10) && // Vérifie si le bord gauche de l'oiseau dépasse le bord droit du tuyau
+        (initialState.bird.y - BIRD_HEIGHT / 2 < pipe.height - 25 || // Vérifie si le bord supérieur de l'oiseau touche le tuyau supérieur
+          initialState.bird.y + BIRD_HEIGHT / 2 > pipe.height + PIPE_GAP + 10) // Vérifie si le bord inférieur de l'oiseau touche le tuyau inférieur
       ) {
-        initialState.gameOver = true;
+        initialState.gameOver = true; // Déclare la fin du jeu en cas de collision
       }
     });
-
     // Check if bird hit the ground or ceiling
     if (
       initialState.bird.y + initialState.bird.height / 2 > 600 ||
@@ -144,5 +144,24 @@ export class FlappyBirdService {
       fingerprint.isFlappyBirdValidated = true;
       await this.fingerprintRepository.save(fingerprint);
     }
+  }
+
+  async createUserFingerprintIfNotExists(user: UserFingerPrint): Promise<any> {
+    let fingerprint = await this.fingerprintRepository.findOne({
+      where: { userAgent: user.userAgent, ipAddress: user.ipAddress },
+    });
+
+    if (!fingerprint) {
+      fingerprint = {} as CaptchaFingerPrint;
+      fingerprint.userAgent = user.userAgent;
+      fingerprint.ipAddress = user.ipAddress;
+      fingerprint.totalFailed = 0;
+      fingerprint.isFlappyBirdValidated = false;
+      fingerprint.lastAttempt = new Date();
+      const userFingerPrint =
+        await this.fingerprintRepository.save(fingerprint);
+      return userFingerPrint;
+    }
+    return fingerprint;
   }
 }

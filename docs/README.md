@@ -362,6 +362,12 @@ Nous pouvons ainsi avoir accès à des dashboards pour suivre l'audience de notr
 
 Vous pouvez y accéder à l'addresse `https://matomo.moreiradj.net/index.php?module=CoreHome&action=index&date=yesterday&period=day&idSite=2#?period=day&date=yesterday&idSite=2&category=Dashboard_Dashboard&subcategory=1` avec les identifiants que nous pouvons vous communiquer par mail via `martin.moreira-de-jesus@protonmail.com`.
 
+## Architecture
+
+![architecture](archi.png)
+
+Voici l'architecture finale de la stack de monitoring.
+
 ## Conclusion
 
 Il est très important de monitorer son application pour s'assurer de sa disponibilité et de sa performance. Nous avons vu comment mettre en place une stack de monitoring complète avec Prometheus, Loki, Tempo et Grafana sans friction.

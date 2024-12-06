@@ -23,6 +23,10 @@ import {
   CHARLIE_SUCCESS_COUNTER,
 } from 'src/config';
 import { Counter } from 'prom-client';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CaptchaFingerPrint } from '../guards/entities/fingerprint.entity';
+import { UserFingerPrint } from '../services/flappy-bird.service';
 
 export enum Events {
   INIT_GAME = 'init-game',
@@ -47,8 +51,39 @@ export class WhereIsCharlieGateway
     private successsCounter: Counter<string>,
     @InjectMetric(CHARLIE_FAIL_COUNTER)
     private failsCounter: Counter<string>,
+    @InjectRepository(CaptchaFingerPrint)
+    private readonly fingerprintRepository: Repository<CaptchaFingerPrint>,
   ) {
     this.games = new Map();
+  }
+
+  async createUserFingerPrintIfNotExists(socket: Socket): Promise<void> {
+    const userAgent = socket.handshake.headers['user-agent'];
+    const ipAddress = socket.handshake.address;
+
+    const fingerprint = await this.fingerprintRepository.findOne({
+      where: { userAgent, ipAddress },
+    });
+    if (!fingerprint) {
+      const newFingerprint = new CaptchaFingerPrint();
+      newFingerprint.userAgent = userAgent;
+      newFingerprint.ipAddress = ipAddress;
+      newFingerprint.isFlappyBirdValidated = false;
+      await this.fingerprintRepository.save(newFingerprint);
+    }
+  }
+
+  async setCaptchValidated(socket: Socket): Promise<void> {
+    const userAgent = socket.handshake.headers['user-agent'];
+    const ipAddress = socket.handshake.address;
+
+    const fingerprint = await this.fingerprintRepository.findOne({
+      where: { userAgent, ipAddress },
+    });
+    if (fingerprint) {
+      fingerprint.isCharlieValidated = true;
+      await this.fingerprintRepository.save(fingerprint);
+    }
   }
 
   handleConnection() {
@@ -86,6 +121,8 @@ export class WhereIsCharlieGateway
 
     const result = game.handleCoordonates(data, client);
     if (result.success) {
+      this.createUserFingerPrintIfNotExists(client);
+      this.setCaptchValidated(client);
       this.successsCounter.inc();
     } else {
       this.failsCounter.inc();
