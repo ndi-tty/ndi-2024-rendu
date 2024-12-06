@@ -7,6 +7,7 @@ import WhereIsCharlie from "../components/games/where-is-charlie";
 import { io, Socket } from "socket.io-client";
 import "./css/captcha.modules.css";
 import { API_BASE_URL } from "../config";
+import { useNavigate } from "react-router-dom";
 
 enum Games {
   FLAPPY_BIRD = "flappy-bird",
@@ -15,6 +16,7 @@ enum Games {
 
 const CaptchaPage: React.FC = () => {
   const ws = useRef<Socket | null>(null);
+  const navigate = useNavigate();
   const [selectedCaptcha, setSelectedCaptcha] = React.useState<Games | null>(
     null
   );
@@ -110,6 +112,10 @@ const CaptchaPage: React.FC = () => {
                 onClick={() => {
                   if (!isCharlieValidated)
                     setSelectedCaptcha(Games.WHERE_IS_CHARLIE);
+
+                  if (isCharlieValidated && isFlappyBirdValidated) {
+                    navigate("/endless");
+                  }
                 }}
                 style={{
                   cursor: isCharlieValidated ? "not-allowed" : "pointer",
@@ -129,9 +135,24 @@ const CaptchaPage: React.FC = () => {
                   }}
                 />
                 {isCharlieValidated && (
-                  <Badge color="green" size="3" style={{ padding: "5px 25px" }}>
-                    Validé
-                  </Badge>
+                  <Flex direction={"column"}>
+                    <Badge
+                      color="green"
+                      size="3"
+                      style={{ padding: "5px 25px", margin: "5px" }}
+                    >
+                      Validé
+                    </Badge>
+                    {isFlappyBirdValidated && (
+                      <Badge
+                        color="blue"
+                        size="3"
+                        style={{ padding: "5px 25px", cursor: "pointer" }}
+                      >
+                        Mode Infini
+                      </Badge>
+                    )}
+                  </Flex>
                 )}
               </Box>
             </Flex>

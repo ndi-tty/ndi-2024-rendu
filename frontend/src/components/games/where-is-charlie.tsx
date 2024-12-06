@@ -49,6 +49,7 @@ interface Coordonates {
 }
 
 interface WhereIsCharlieProps {
+  isEndless?: boolean;
   emitGameWon: (data: boolean) => void;
 }
 

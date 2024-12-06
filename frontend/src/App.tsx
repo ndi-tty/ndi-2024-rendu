@@ -18,6 +18,7 @@ import Scene4 from "./pages/game/Scene4";
 import Scene5 from "./pages/game/Scene5";
 import Scene6 from "./pages/game/Scene6";
 import CaptchaPage from "./pages/captcha";
+import EndlessWaldo from "./pages/endless";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -61,6 +62,7 @@ const router = createBrowserRouter(
       />
 
       <Route path="captcha" element={<CaptchaPage />} />
+      <Route path="endless" element={<EndlessWaldo />} />
     </Route>
   )
 );
