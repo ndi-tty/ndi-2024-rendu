@@ -1,0 +1,28 @@
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  hosts:
+    - host: api.ndi-tty.moreiradj.net
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+  tls:
+    - secretName: api-ndi-tty-moreiradj-net-tls
+      hosts:
+        - api.ndi-tty.moreiradj.net
+
+database:
+  host: postgres-postgresql
+  username: ndi-tty
+  database: ndi-tty
+  secretName: postgres-postgresql
+
+image:
+  pullPolicy: Always
+  tag: latest
+
+monitoring:
+  jaegerEndpoint: http://tempo.monitoring.svc.cluster.local:14268/api/traces

@@ -1,0 +1,65 @@
+---
+releases:
+  - name: matomo
+    createNamespace: true
+    version: 9.0.0
+    chart: oci://registry-1.docker.io/bitnamicharts/matomo
+    values:
+      - values/matomo.yaml
+    namespace: matomo
+
+  - name: frontend
+    chart: frontend
+    createNamespace: true
+    namespace: ndi-tty
+    values:
+      - values/frontend.yaml
+
+  - name: backend
+    chart: captcha-api
+    createNamespace: true
+    namespace: ndi-tty
+    values:
+      - values/backend.yaml
+
+  - name: postgres
+    createNamespace: true
+    chart: oci://registry-1.docker.io/bitnamicharts/postgresql
+    version: 16.2.5
+    namespace: ndi-tty
+    values:
+      - values/postgres.yaml
+
+  - name: kube-prom-stack
+    namespace: monitoring
+    chart: prometheus-community/kube-prometheus-stack
+    version: 66.3.1
+    values:
+      - values/kube-prom-stack.yaml
+
+  - name: loki
+    namespace: monitoring
+    chart: grafana/loki
+    version: 6.22.0
+    values:
+      - values/loki.yaml
+    needs:
+      - kube-prom-stack
+
+  - name: promtail
+    namespace: monitoring
+    chart: grafana/promtail
+    version: 6.16.6
+    values:
+      - values/promtail.yaml
+    needs:
+      - kube-prom-stack
+
+  - name: tempo
+    namespace: monitoring
+    chart: grafana/tempo
+    version: 1.14.0
+    values:
+      - values/tempo.yaml
+    needs:
+      - kube-prom-stack

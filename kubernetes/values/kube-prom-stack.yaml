@@ -1,0 +1,38 @@
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-production
+    hosts:
+      - grafana.moreiradj.net
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.moreiradj.net
+
+  adminPassword: CHANGEME
+
+  persistence:
+    enabled: true
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Loki
+        type: loki
+        url: http://loki:3100
+        jsonData:
+          httpHeaderName1: 'X-Scope-OrgID'
+        secureJsonData:
+          httpHeaderValue1: '1'
+      - name: tempo
+        type: tempo
+        url: http://tempo:3100
+
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    serviceMonitorNamespaceSelector: {}

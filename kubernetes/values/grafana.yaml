@@ -1,0 +1,22 @@
+persistence:
+  type: pvc
+  enabled: true
+
+grafana.ini:
+  server:
+    domain: grafana.moreiradj.net
+    root_url: "%(protocol)s://%(domain)s/grafana"
+    serve_from_sub_path: true
+
+ingress:
+  enabled: true
+  hosts:
+    - "monitoring.moreiradj.net"
+  path: "/grafana"
+  ingressClassName: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+  tls:
+    - secretName: grafana-tls
+      hosts:
+        - "monitoring.moreiradj.net"

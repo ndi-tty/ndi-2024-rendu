@@ -1,0 +1,41 @@
+.App {
+  text-align: center;
+}
+
+.game-area {
+  position: relative;
+  width: 600px;
+  height: 600px;
+  border: 2px solid black;
+  margin: 0 auto;
+  overflow: hidden;
+  background-color: #70c5ce;
+}
+
+.bird {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background-color: yellow;
+  border-radius: 50%;
+}
+
+.pipe {
+  position: absolute;
+  width: 50px;
+  background-color: green;
+}
+
+.pipe.bottom {
+  position: absolute;
+}
+
+.score {
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+.game-over {
+  font-size: 40px;
+  color: red;
+}
